@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 app.use(express.json());
-const PORT = 3000;
+const PORT = 1234;
 
 const users = [
   {name:'jose',lastname: 'river'},
@@ -9,7 +9,7 @@ const users = [
   {name:'camilo',lastname:'peralta'}
 ];
 // // buscar todos los usuarios
- app.get('/users', function (req, res) {
+ app.get('/users',(req, res)=> {
    res.send(users)
  })
 
@@ -29,14 +29,30 @@ app.get('/users/:id',(req,res)=>{
 return  res.send(users[index])
 })
 
-// metodo post
+// metodo post and push
 app.post('/users',  (req,res)=>{
   console.log(req.body)
   users.push(req.body)
+  res.status(201)
   return res.send(req.body)
 })
 
-//metodo push
+//modificar usuario por id
+app.put('/users/:id',  (req,res)=>{
+  const index = req.params.id;
+  users[index]= req.body;
+  res.status(201)
+  return res.send(users[index])
+})
+
+app.delete('/user/:id',(req,res)=>{
+  const index = req.params.id
+  users.splice(index,1)
+  res.status(201)
+  console.log(req)
+  return res.send(users)
+}
+)
 
 
 
